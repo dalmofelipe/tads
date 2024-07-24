@@ -15,6 +15,7 @@ typedef struct pilha {
 void inicia_pilha(PILHA *);
 bool pilha_vazia(PILHA *);
 void empilhar(PILHA *, INFO);
+INFO consulta_topo(PILHA *);
 INFO desempilhar(PILHA *);
 void imprime_pilha(PILHA *);
 void drop_pilha(PILHA *);
@@ -62,6 +63,17 @@ void empilhar(PILHA *p, INFO x)
 
     // Importante, atualizar o tamanho da PILHA
     p->tam++;
+}
+
+// Exibe e retorna a informação do TOPO da PILHA
+INFO consulta_topo(PILHA *p)
+{
+    if(pilha_vazia(p)) return reset_info();
+
+    printf("\nConsulta Topo >>> ID[%d] Nome[%s]\n", 
+        p->topo->info.ID, p->topo->info.nome);
+
+    return p->topo->info;
 }
 
 

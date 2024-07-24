@@ -15,6 +15,7 @@ int main(int argc, char **args)
     printf("\nEmpilhando o livro >>> %s\n", x.nome);
     empilhar(&livros, x);
 
+
     x = set_info(100, "O Hobbit");
     empilhar(&livros, x);
 
@@ -28,6 +29,9 @@ int main(int argc, char **args)
     empilhar(&livros, x);
     
     imprime_pilha(&livros);
+
+
+    consulta_topo(&livros);
     
 
     x = desempilhar(&livros);
@@ -38,6 +42,8 @@ int main(int argc, char **args)
 
     imprime_pilha(&livros);
 
+
+    x = consulta_topo(&livros);
 
     drop_pilha(&livros);
     imprime_pilha(&livros);

@@ -14,7 +14,7 @@ sudo apt install build-essential
 <details>
 <summary><h3>Pilha Encadeada Sem Nó Cabeça</h3></summary>
 
-__Compile & Run__
+### Compile & Run
 
 ```sh
 gcc pilha.c -o pilha && ./pilha
