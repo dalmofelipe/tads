@@ -12,7 +12,7 @@ sudo apt install build-essential
 ```
 
 <details>
-<summary><h3>Pilha Encadeada Sem Nó Cabeça</h3></summary>
+<summary><h3>Pilha Encadeada</h3></summary>
 
 ### Compile & Run
 
@@ -48,14 +48,43 @@ Uma **Pilha Encadeada Sem Nó Cabeça** é uma estrutura de dados que representa
 6. **Drop_Pilha**:
    - Limpa toda memoria alocada
 
-### Vantagens e Desvantagens
+</details>
 
-**Vantagens:**
-- **Simplicidade**: Sem o nó cabeça, a implementação pode ser mais direta e economiza memória ao não utilizar o nó extra.
-- **Dinâmica**: Como é baseada em nós encadeados, a pilha pode crescer e encolher conforme necessário, sem um limite fixo de tamanho.
 
-**Desvantagens:**
-- **Complexidade nas Operações**: Algumas operações podem ser um pouco mais complexas, já que não há nó cabeça para lidar com casos especiais (como a remoção do último nó).
-- **Potencial de Erros**: Pode haver uma maior chance de erros de implementação, especialmente se a manipulação do topo não for feita corretamente.
+<details>
+<summary><h3>Fila Encadeada</h3></summary>
+
+### Compile & Run
+
+```sh
+gcc fila.c -o fila && ./fila
+```
+
+Uma fila é uma estrutura de dados que segue o princípio FIFO (First In, First Out), ou seja, o primeiro elemento adicionado à fila será o primeiro a ser removido. A fila é análoga a uma fila de pessoas em um banco, onde as pessoas são atendidas na ordem em que chegam.
+
+### Características Principais da Fila
+Ordem de Processamento: Os elementos são processados na ordem em que foram adicionados, com o primeiro elemento sendo o primeiro a sair.
+
+__Dois Pontos de Acesso__:
+- ```Frente (front)```: Onde os elementos são removidos.
+- ```Traseira (rear)```: Onde os elementos são adicionados.
+- ```Uso Comum```: Filas são amplamente utilizadas em sistemas de processamento de dados, onde a ordem de chegada dos dados precisa ser mantida, como em filas de impressão, processamento de tarefas em sistemas operacionais, etc.
+
+### Operações Básicas da Fila
+As operações principais que podem ser realizadas em uma fila são:
+
+1. **Enfileirar**: 
+   - Adiciona o elemento x ao final da fila.
+   - Aumenta o tamanho da fila.
+2. **Desenfileirar**:
+   - Remove e retorna o elemento na frente da fila.
+   - Diminui o tamanho da fila.
+   - Retornar um valor especial se a fila estiver vazia.
+3. **Consulta_Fila**:
+   - Retorna o elemento na frente da fila sem removê-lo.
+4. **Fila_Vazia**:
+   - Verifica se a fila está vazia.
+5. **Drop_Fila**:
+   - Limpa toda FILA desalocando memoria usada
 
 </details>
