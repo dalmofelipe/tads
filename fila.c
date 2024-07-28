@@ -4,6 +4,8 @@
 
 int main(int argc, char **args)
 {
+    printf("\nFILA ENCADEADA\n");
+
     FILA banco;
     inicia_fila(&banco);
 

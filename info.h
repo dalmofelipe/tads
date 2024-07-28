@@ -4,7 +4,7 @@ typedef struct info {
     char nome[MAXBUFF];
 }   INFO;
 
-INFO reset_info() 
+INFO INFO_default_value() 
 {
     INFO i;
     i.ID = -999;
@@ -12,7 +12,7 @@ INFO reset_info()
     return i;
 }
 
-INFO set_info(int id, char *nome) 
+INFO INFO_set_value(int id, char *nome) 
 {
     INFO i;
     i.ID = id;
@@ -20,7 +20,7 @@ INFO set_info(int id, char *nome)
     return i;
 }
 
-INFO set_info_interativo(char *titulo) 
+INFO INFO_set_interativo(char *titulo) 
 {
     INFO i;
 
@@ -39,4 +39,11 @@ INFO set_info_interativo(char *titulo)
     }
 
     return i;
+}
+
+bool INFO_is_equal(INFO x, INFO y)
+{
+    if(x.ID == y.ID && strcmp(x.nome, y.nome) == 0) return true;
+
+    return false;
 }

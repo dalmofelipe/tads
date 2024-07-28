@@ -10,26 +10,23 @@ __Necessário compilador GCC__
 sudo apt update
 sudo apt install build-essential
 ```
+<br>
 
 <details>
-<summary><h3>Pilha Encadeada</h3></summary>
-
-### Compile & Run
+<summary>
+   <strong>Pilha Encadeada</strong>
+   <p><i>É uma estrutura de dados que segue o princípio FILO (First In, Last Out). Isso significa que o último elemento adicionado à pilha será o primeiro a ser removido. A pilha é utilizada em diversas aplicações que requerem esse tipo de comportamento, como a avaliação de expressões matemáticas, gerenciamento de chamadas de função (stack frames), e mais.</i></p>
+</summary>
 
 ```sh
 gcc pilha.c -o pilha && ./pilha
 ```
-
-Uma **Pilha Encadeada Sem Nó Cabeça** é uma estrutura de dados que representa uma pilha (FILO - First In, Last Out) usando nós encadeados, mas sem um nó especial chamado de "cabeça" ou "sentinela".
-
-### Estrutura
-
+__Estrutura__
 - ```Nós```: Cada elemento da pilha é armazenado em um nó que contém um valor (ou dados) e um ponteiro para o próximo nó na pilha.
 - ```Topo```: A pilha mantém uma referência apenas ao nó no topo, que é o elemento mais recentemente adicionado. 
 - ```Sem Nó Cabeça```: Diferentemente de algumas implementações que utilizam um nó cabeça como um marcador ou sentinela para simplificar operações, esta estrutura não utiliza esse nó extra. 
 
-### Operações
-
+__Operações__
 1. **Empilha (Inserção)**: 
    - Um novo nó é criado e adicionado ao topo da pilha.
    - O ponteiro do novo nó aponta para o nó que era o topo anteriormente.
@@ -47,32 +44,24 @@ Uma **Pilha Encadeada Sem Nó Cabeça** é uma estrutura de dados que representa
    - Imprime a Pilha partindo do topo até o primeiro nó inserido.
 6. **Drop_Pilha**:
    - Limpa toda memoria alocada
-
 </details>
 
-
 <details>
-<summary><h3>Fila Encadeada</h3></summary>
-
-### Compile & Run
+<summary>
+   <strong>Fila Encadeada</strong>
+   <p><i>É uma estrutura de dados que segue o princípio FIFO (First In, First Out), ou seja, o primeiro elemento adicionado à fila será o primeiro a ser removido. A fila é análoga a uma fila de pessoas em um banco, onde as pessoas são atendidas na ordem em que chegam. São amplamente utilizadas em sistemas de processamento de dados, onde a ordem de chegada dos dados precisa ser mantida, como em filas de impressão, processamento de tarefas em sistemas operacionais, etc.</i></p>
+</summary>
 
 ```sh
 gcc fila.c -o fila && ./fila
 ```
 
-Uma fila é uma estrutura de dados que segue o princípio FIFO (First In, First Out), ou seja, o primeiro elemento adicionado à fila será o primeiro a ser removido. A fila é análoga a uma fila de pessoas em um banco, onde as pessoas são atendidas na ordem em que chegam.
+__Estrutura__
+- ```Nós```: Cada elemento da fila é armazenado em um nó que contém um valor (ou dados) e um ponteiro para o próximo nó na fila.
+- ```Inicio e Fim```: A fila mantém duas referências, uma para nó no inicio e outro para o fim da fila, onde o elemento mais recentemente adicionado pela fim da fila. 
+- ```Sem Nó Cabeça```: Esta implementação não utiliza esse nó extra. 
 
-### Características Principais da Fila
-Ordem de Processamento: Os elementos são processados na ordem em que foram adicionados, com o primeiro elemento sendo o primeiro a sair.
-
-__Dois Pontos de Acesso__:
-- ```Frente (front)```: Onde os elementos são removidos.
-- ```Traseira (rear)```: Onde os elementos são adicionados.
-- ```Uso Comum```: Filas são amplamente utilizadas em sistemas de processamento de dados, onde a ordem de chegada dos dados precisa ser mantida, como em filas de impressão, processamento de tarefas em sistemas operacionais, etc.
-
-### Operações Básicas da Fila
-As operações principais que podem ser realizadas em uma fila são:
-
+__Operações__
 1. **Enfileirar**: 
    - Adiciona o elemento x ao final da fila.
    - Aumenta o tamanho da fila.
@@ -86,5 +75,4 @@ As operações principais que podem ser realizadas em uma fila são:
    - Verifica se a fila está vazia.
 5. **Drop_Fila**:
    - Limpa toda FILA desalocando memoria usada
-
 </details>

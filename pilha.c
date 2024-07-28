@@ -4,7 +4,7 @@
 
 int main(int argc, char **args)
 {
-    printf("\nPILHA\n");
+    printf("\nPILHA ENCADEADA\n");
 
     PILHA livros;
     inicia_pilha(&livros);
