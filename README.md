@@ -1,19 +1,37 @@
 ## TADs - Tipos Abstratos de Dados Encadeados em C
 
-```sh
-git clone https://github.com/dalmofelipe/tads
-cd tads
-```
+- [Informação Carregada Em Cada NO](#informação-carregada-em-cada-no)
+- [Pilha Encadeada](#pilha-encadeada)
+    - [Estrutura](#estrutura)
+    - [Métodos e Procedimentos](#métodos-e-procedimentos)
+- [Fila Encadeada](#fila-encadeada)
+    - [Estrutura](#estrutura-1)
+    - [Métodos e Procedimentos](#métodos-e-procedimentos-1)
+- [Lista Simplesmente Encadeada](#lista-simplesmente-encadeada)
+    - [Estrutura](#estrutura-2)
+    - [Métodos e Procedimentos](#métodos-e-procedimentos-2)
+
+<br>
+
 __Necessário compilador GCC__
 
 ```sh
 sudo apt update
 sudo apt install build-essential
 ```
+
+__Clone__
+
+Execute todos comandos do GCC a partir da pasta raiz: ```tads```
+
+```sh
+git clone https://github.com/dalmofelipe/tads
+cd tads
+```
+
 <br>
 
-
-## Conteúdo Manipulado
+## Informação Carregada Em Cada NO
 
 A informação que cada NO das tads carregam é básica para exemplos, possui apenas um inteiro ID e string para um texto. O arquivo ```info.h``` contem a estrutura e metodos auxiliares.
 
@@ -48,6 +66,8 @@ __Topo__ -  A pilha mantém uma referência apenas ao nó no topo, que é o elem
 
 __Sem Nó Cabeça__ -  Diferentemente de algumas implementações que utilizam um nó cabeça como um marcador ou sentinela para simplificar operações, esta estrutura não utiliza esse nó extra. 
 
+<br>
+
 ### Métodos e Procedimentos
 
 ```c
@@ -77,6 +97,8 @@ __Inicio e Fim__ - A fila mantém duas referências, uma para nó no inicio e ou
 
 __Sem Nó Cabeça__ - Esta implementação não utiliza esse nó extra. 
 
+<br>
+
 ### Métodos e Procedimentos
 
 ```c
@@ -91,7 +113,7 @@ void FILA_drop(FILA *);
 
 ## Lista Simplesmente Encadeada
 
-É uma estrutura de dados que segue o princípio FIFO (First In, First Out), ou seja, o primeiro elemento adicionado à fila será o primeiro a ser removido. A fila é análoga a uma fila de pessoas em um banco, onde as pessoas são atendidas na ordem em que chegam. São amplamente utilizadas em sistemas de processamento de dados, onde a ordem de chegada dos dados precisa ser mantida, como em filas de impressão, processamento de tarefas em sistemas operacionais, etc.
+Uma lista simplesmente encadeada é uma estrutura de dados fundamental em ciência da computação. Ela consiste em uma coleção de elementos, onde cada elemento (ou nó) contém um valor e uma referência (ou ponteiro) para o próximo nó na lista. É chamada de "simplesmente encadeada" porque cada nó tem apenas uma referência para o próximo nó.
 
 ```sh
 gcc lista.c -o lista && ./lista
@@ -99,11 +121,15 @@ gcc lista.c -o lista && ./lista
 
 ### Estrutura
 
-__Nós__ - Cada elemento da fila é armazenado em um nó que contém um valor (ou dados) e um ponteiro para o próximo nó na fila.
+__Nós__ - Elemento da lista que armazenado o valor e um ponteiro para o próximo nó da lista.
 
-__Inicio e Fim__ - A fila mantém duas referências, uma para nó no inicio e outro para o fim da fila, onde o elemento mais recentemente adicionado pela fim da fila. 
+__Inicio ou Cabeça__ - Referência para nó do inicio lista.
 
-__Sem Nó Cabeça__ - Esta implementação não utiliza esse nó extra. 
+__Fim ou Calda__ - Referências para nó do fim da fila. 
+
+__Tamanho__ - Valor inteiro que é atualizado de acordo com a quantidade de Nos na lista. 
+
+<br>
 
 ### Métodos e Procedimentos
 
