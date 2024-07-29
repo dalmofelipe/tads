@@ -7,50 +7,50 @@ int main(int argc, char **args)
     printf("\nFILA ENCADEADA\n");
 
     FILA banco;
-    inicia_fila(&banco);
+    FILA_inicia(&banco);
 
     INFO x;
 
-    x = set_info_interativo("Informe o PRIMEIRO(A) da FILA");
-    enfileirar(&banco, x);
+    x = INFO_set_interativo("Informe o PRIMEIRO(A) da FILA");
+    FILA_enfileirar(&banco, x);
 
-    x = set_info(222, "Segundo");
-    enfileirar(&banco, x);
+    x = INFO_set_value(222, "Segundo");
+    FILA_enfileirar(&banco, x);
 
-    x = set_info(333, "Terceiro");
-    enfileirar(&banco, x);
+    x = INFO_set_value(333, "Terceiro");
+    FILA_enfileirar(&banco, x);
 
-    x = set_info(444, "Quarto");
-    enfileirar(&banco, x);
+    x = INFO_set_value(444, "Quarto");
+    FILA_enfileirar(&banco, x);
 
-    x = set_info(555, "Quinto");
-    enfileirar(&banco, x);
+    x = INFO_set_value(555, "Quinto");
+    FILA_enfileirar(&banco, x);
 
-    imprime_fila(&banco);
+    FILA_imprime(&banco);
 
 
-    x = desemfilelar(&banco);
+    x = FILA_desemfilelar(&banco);
     printf("\nDesenfilerado >>> SENHA [ %d ]  Nome [ %s ]\n", x.ID, x.nome);
 
 
-    x = consulta_fila(&banco);
+    x = FILA_get_primeiro(&banco);
     printf("\nPrimerio da FILA >>> SENHA [ %d ]  Nome [ %s ]\n\n", x.ID, x.nome);
 
 
-    drop_fila(&banco);
-    imprime_fila(&banco);
+    FILA_drop(&banco);
+    FILA_imprime(&banco);
     
 
-    x = set_info(111, "Primeiro");
-    enfileirar(&banco, x);
+    x = INFO_set_value(111, "Primeiro");
+    FILA_enfileirar(&banco, x);
 
-    x = set_info(222, "Segundo");
-    enfileirar(&banco, x);
+    x = INFO_set_value(222, "Segundo");
+    FILA_enfileirar(&banco, x);
 
-    x = set_info(333, "Terceiro");
-    enfileirar(&banco, x);
+    x = INFO_set_value(333, "Terceiro");
+    FILA_enfileirar(&banco, x);
 
-    imprime_fila(&banco);
+    FILA_imprime(&banco);
         
     return 0;
 }

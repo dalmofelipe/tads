@@ -13,23 +13,23 @@ typedef struct fila {
 }   FILA;
 
 // Assinaturas
-void inicia_fila(FILA *);
-bool fila_vazia(FILA *, bool);
-void emfilerar(FILA *, INFO);
-INFO consulta_fila(FILA *);
-INFO desemfilelar(FILA *);
-void imprime_fila(FILA *);
-void drop_fila(FILA *);
+void FILA_inicia(FILA *);
+bool FILA_vazia(FILA *, bool);
+void FILA_enfileirar(FILA *, INFO);
+INFO FILA_get_primeiro(FILA *);
+INFO FILA_desemfilelar(FILA *);
+void FILA_imprime(FILA *);
+void FILA_drop(FILA *);
 
 
-void inicia_fila(FILA *f)
+void FILA_inicia(FILA *f)
 {
     f->tam = 0;
     f->inicio = NULL;
     f->fim = NULL;
 }
 
-bool fila_vazia(FILA *f, bool exibir_mensagem)
+bool FILA_vazia(FILA *f, bool exibir_mensagem)
 {
     if(f->tam == 0 && f->inicio == NULL && f->fim == NULL) {
         if(exibir_mensagem) printf("\nFila Vazia...\n");
@@ -41,7 +41,7 @@ bool fila_vazia(FILA *f, bool exibir_mensagem)
 
 
 // Insere NÓs na FILA pelo ponteiro *fim
-void enfileirar(FILA *f, INFO x)
+void FILA_enfileirar(FILA *f, INFO x)
 {
     NO_FILA *novo = (NO_FILA *) malloc(sizeof(NO_FILA));
 
@@ -58,7 +58,7 @@ void enfileirar(FILA *f, INFO x)
 
     // Caso primeira inserção, os dois ponteiros *inicio e *fim, devem 
     // apontar para novo NO.
-    if(fila_vazia(f, false)) {
+    if(FILA_vazia(f, false)) {
         f->inicio = novo;
         f->fim = novo;
     }
@@ -76,18 +76,18 @@ void enfileirar(FILA *f, INFO x)
 
 
 // Retorna dados do PRIMEIRO NO da FILA
-INFO consulta_fila(FILA *f)
+INFO FILA_get_primeiro(FILA *f)
 {
-    if(fila_vazia(f, true)) return reset_info();
+    if(FILA_vazia(f, true)) return INFO_default_value();
 
     return f->inicio->info;
 }
 
 
 // Remove sempre o PRIMEIRO NO da FILA
-INFO desemfilelar(FILA *f)
+INFO FILA_desemfilelar(FILA *f)
 {
-    if(fila_vazia(f, true)) return reset_info();
+    if(FILA_vazia(f, true)) return INFO_default_value();
 
     // *aux aponta para o que o *inicio da FILA aponta
     NO_FILA *aux = f->inicio;
@@ -116,9 +116,9 @@ INFO desemfilelar(FILA *f)
 
 
 // Imprime do INICIO ao FIM da FILA
-void imprime_fila(FILA *f)
+void FILA_imprime(FILA *f)
 {
-    if(fila_vazia(f, true)) return;
+    if(FILA_vazia(f, true)) return;
 
     NO_FILA *aux = f->inicio;
 
@@ -133,9 +133,9 @@ void imprime_fila(FILA *f)
 }
 
 
-void drop_fila(FILA *f)
+void FILA_drop(FILA *f)
 {
-    if(fila_vazia(f, true)) return;
+    if(FILA_vazia(f, true)) return;
 
     printf("\nDrop Fila...\n\n");
 
@@ -151,5 +151,5 @@ void drop_fila(FILA *f)
     }
 
     // Reset FILA *inicio ao *fim, para novas inserções pos drop
-    inicia_fila(f);
+    FILA_inicia(f);
 }

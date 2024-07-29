@@ -7,46 +7,46 @@ int main(int argc, char **args)
     printf("\nPILHA ENCADEADA\n");
 
     PILHA livros;
-    inicia_pilha(&livros);
+    PILHA_inicia(&livros);
 
     INFO x;
 
-    x = set_info_interativo("Informe os dados do PRIMEIRO Livro");
+    x = INFO_set_interativo("Informe os dados do PRIMEIRO Livro");
     printf("\nEmpilhando o livro >>> %s\n", x.nome);
-    empilhar(&livros, x);
+    PILHA_empilhar(&livros, x);
 
 
-    x = set_info(100, "O Hobbit");
-    empilhar(&livros, x);
+    x = INFO_set_value(100, "O Hobbit");
+    PILHA_empilhar(&livros, x);
 
-    x = set_info(200, "Harry Potter e a Pedra Filosofal");
-    empilhar(&livros, x);
+    x = INFO_set_value(200, "Harry Potter e a Pedra Filosofal");
+    PILHA_empilhar(&livros, x);
 
-    x = set_info(300, "O Senho dos Aneis");
-    empilhar(&livros, x);
+    x = INFO_set_value(300, "O Senho dos Aneis");
+    PILHA_empilhar(&livros, x);
 
-    x = set_info(400, "As Crônicas de Gelo e Fogo");
-    empilhar(&livros, x);
+    x = INFO_set_value(400, "As Crônicas de Gelo e Fogo");
+    PILHA_empilhar(&livros, x);
     
-    imprime_pilha(&livros);
+    PILHA_imprime(&livros);
 
 
-    consulta_topo(&livros);
+    PILHA_get_topo(&livros);
     
 
-    x = desempilhar(&livros);
+    x = PILHA_desempilhar(&livros);
     printf("\n\nDesempilhado -> COD: %d, NAME: %s", x.ID, x.nome);
 
-    x = desempilhar(&livros);
+    x = PILHA_desempilhar(&livros);
     printf("\nDesempilhado -> COD: %d, NAME: %s\n\n", x.ID, x.nome);
 
-    imprime_pilha(&livros);
+    PILHA_imprime(&livros);
 
 
-    x = consulta_topo(&livros);
+    x = PILHA_get_topo(&livros);
 
-    drop_pilha(&livros);
-    imprime_pilha(&livros);
+    PILHA_drop(&livros);
+    PILHA_imprime(&livros);
 
     return 0;
 }

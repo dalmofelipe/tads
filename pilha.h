@@ -11,18 +11,18 @@ typedef struct pilha {
     NO_PILHA *topo;
 }   PILHA;
 
-// Assinaturas de procedimentos e funções
-void inicia_pilha(PILHA *);
-bool pilha_vazia(PILHA *);
-void empilhar(PILHA *, INFO);
-INFO consulta_topo(PILHA *);
-INFO desempilhar(PILHA *);
-void imprime_pilha(PILHA *);
-void drop_pilha(PILHA *);
+// Assinaturas
+void PILHA_inicia(PILHA *);
+bool PILHA_vazia(PILHA *);
+void PILHA_empilhar(PILHA *, INFO);
+INFO PILHA_get_topo(PILHA *);
+INFO PILHA_desempilhar(PILHA *);
+void PILHA_imprime(PILHA *);
+void PILHA_drop(PILHA *);
 
 
 // Aloca dados de inicialização da Pilha sem nó cabeça!
-void inicia_pilha(PILHA *p)
+void PILHA_inicia(PILHA *p)
 {
     p->tam = 0;
     p->topo = NULL;
@@ -31,7 +31,7 @@ void inicia_pilha(PILHA *p)
 
 // Sempre valida o TAM e o ponteiro TOPO para definir se 
 // a pilha esta vazia
-bool pilha_vazia(PILHA *p)
+bool PILHA_vazia(PILHA *p)
 {
     if(p->tam == 0 && p->topo == NULL) {
         printf("\nPilha vazia...\n");
@@ -42,7 +42,7 @@ bool pilha_vazia(PILHA *p)
 }
 
 
-void empilhar(PILHA *p, INFO x)
+void PILHA_empilhar(PILHA *p, INFO x)
 {
     NO_PILHA *novo = (NO_PILHA *) malloc(sizeof(NO_PILHA));
 
@@ -66,9 +66,9 @@ void empilhar(PILHA *p, INFO x)
 }
 
 // Exibe e retorna a informação do TOPO da PILHA
-INFO consulta_topo(PILHA *p)
+INFO PILHA_get_topo(PILHA *p)
 {
-    if(pilha_vazia(p)) return reset_info();
+    if(PILHA_vazia(p)) return INFO_default_value();
 
     printf("\nConsulta Topo >>> ID[%d] Nome[%s]\n", 
         p->topo->info.ID, p->topo->info.nome);
@@ -79,11 +79,11 @@ INFO consulta_topo(PILHA *p)
 
 // Função para desempilhar o NO que esta no TOPO da PILHA
 // Return: Retorna a informação (INFO) do NO removido
-INFO desempilhar(PILHA *p)
+INFO PILHA_desempilhar(PILHA *p)
 {
-    INFO x = reset_info();
+    INFO x = INFO_default_value();
 
-    if(!pilha_vazia(p))
+    if(!PILHA_vazia(p))
     {
         // Copia informação para retorno
         x = p->topo->info;
@@ -114,9 +114,9 @@ INFO desempilhar(PILHA *p)
 
 
 // Imprime do TOPO para o primeiro NO inserido
-void imprime_pilha(PILHA *p) 
+void PILHA_imprime(PILHA *p)
 {
-    if(pilha_vazia(p)) return;
+    if(PILHA_vazia(p)) return;
    
     NO_PILHA *aux = p->topo;
 
@@ -131,9 +131,9 @@ void imprime_pilha(PILHA *p)
 }
 
 
-void drop_pilha(PILHA *p)
+void PILHA_drop(PILHA *p)
 {
-    if(pilha_vazia(p)) return;
+    if(PILHA_vazia(p)) return;
    
     NO_PILHA *aux;
 

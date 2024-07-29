@@ -1,4 +1,4 @@
-## TADs - Tipos Abstratos de Dados em C
+## TADs - Tipos Abstratos de Dados Encadeados em C
 
 ```sh
 git clone https://github.com/dalmofelipe/tads
@@ -12,67 +12,116 @@ sudo apt install build-essential
 ```
 <br>
 
-<details>
-<summary>
-   <strong>Pilha Encadeada</strong>
-   <p><i>É uma estrutura de dados que segue o princípio FILO (First In, Last Out). Isso significa que o último elemento adicionado à pilha será o primeiro a ser removido. A pilha é utilizada em diversas aplicações que requerem esse tipo de comportamento, como a avaliação de expressões matemáticas, gerenciamento de chamadas de função (stack frames), e mais.</i></p>
-</summary>
+
+## Conteúdo Manipulado
+
+A informação que cada NO das tads carregam é básica para exemplos, possui apenas um inteiro ID e string para um texto. O arquivo ```info.h``` contem a estrutura e metodos auxiliares.
+
+```c
+typedef struct info {
+    int ID;
+    char nome[MAXBUFF];
+    // ...
+}   INFO;
+
+
+INFO INFO_default_value(); 
+INFO INFO_set_value(int, char *);
+INFO INFO_set_interativo(char *);
+bool INFO_is_equal(INFO, INFO);
+```
+
+## Pilha Encadeada
+
+É uma estrutura de dados que segue o princípio FILO (First In, Last Out). Isso significa que o último elemento adicionado à pilha será o primeiro a ser removido. A pilha é utilizada em diversas aplicações que requerem esse tipo de comportamento, como a avaliação de expressões matemáticas, gerenciamento de chamadas de função (stack frames), e mais.
+
 
 ```sh
 gcc pilha.c -o pilha && ./pilha
 ```
-__Estrutura__
-- ```Nós```: Cada elemento da pilha é armazenado em um nó que contém um valor (ou dados) e um ponteiro para o próximo nó na pilha.
-- ```Topo```: A pilha mantém uma referência apenas ao nó no topo, que é o elemento mais recentemente adicionado. 
-- ```Sem Nó Cabeça```: Diferentemente de algumas implementações que utilizam um nó cabeça como um marcador ou sentinela para simplificar operações, esta estrutura não utiliza esse nó extra. 
 
-__Operações__
-1. **Empilha (Inserção)**: 
-   - Um novo nó é criado e adicionado ao topo da pilha.
-   - O ponteiro do novo nó aponta para o nó que era o topo anteriormente.
-   - A referência do topo é atualizada para este novo nó.
-2. **Desempilha (Remoção)**: 
-   - O nó no topo da pilha é removido.
-   - A referência do topo é atualizada para o nó seguinte.
-   - Se a pilha está vazia (topo é `null`), nenhuma operação é realizada.
-3. **Peek (Consulta do Topo)**:
-   - Retorna o valor do nó no topo sem removê-lo da pilha.
-   - Se a pilha estiver vazia, pode retornar `null` ou lançar uma exceção, dependendo da implementação.
-4. **Pilha_Vazia (Verificação de Vazio)**:
-   - Verifica se a referência do topo é `null` e tamanho igual a 0, indicando que a pilha está vazia.
-5. **Imprime_Pilha**:
-   - Imprime a Pilha partindo do topo até o primeiro nó inserido.
-6. **Drop_Pilha**:
-   - Limpa toda memoria alocada
-</details>
+### Estrutura
 
-<details>
-<summary>
-   <strong>Fila Encadeada</strong>
-   <p><i>É uma estrutura de dados que segue o princípio FIFO (First In, First Out), ou seja, o primeiro elemento adicionado à fila será o primeiro a ser removido. A fila é análoga a uma fila de pessoas em um banco, onde as pessoas são atendidas na ordem em que chegam. São amplamente utilizadas em sistemas de processamento de dados, onde a ordem de chegada dos dados precisa ser mantida, como em filas de impressão, processamento de tarefas em sistemas operacionais, etc.</i></p>
-</summary>
+__Nós__ -  Cada elemento da pilha é armazenado em um nó que contém um valor (ou dados) e um ponteiro para o próximo nó na pilha.
+
+__Topo__ -  A pilha mantém uma referência apenas ao nó no topo, que é o elemento mais recentemente adicionado. 
+
+__Sem Nó Cabeça__ -  Diferentemente de algumas implementações que utilizam um nó cabeça como um marcador ou sentinela para simplificar operações, esta estrutura não utiliza esse nó extra. 
+
+### Métodos e Procedimentos
+
+```c
+void PILHA_inicia(PILHA *);
+bool PILHA_vazia(PILHA *);
+void PILHA_empilhar(PILHA *, INFO);
+INFO PILHA_get_topo(PILHA *);
+INFO PILHA_desempilhar(PILHA *);
+void PILHA_imprime(PILHA *);
+void PILHA_drop(PILHA *);
+```
+
+
+## Fila Encadeada
+
+É uma estrutura de dados que segue o princípio FIFO (First In, First Out), ou seja, o primeiro elemento adicionado à fila será o primeiro a ser removido. A fila é análoga a uma fila de pessoas em um banco, onde as pessoas são atendidas na ordem em que chegam. São amplamente utilizadas em sistemas de processamento de dados, onde a ordem de chegada dos dados precisa ser mantida, como em filas de impressão, processamento de tarefas em sistemas operacionais, etc.
 
 ```sh
 gcc fila.c -o fila && ./fila
 ```
 
-__Estrutura__
-- ```Nós```: Cada elemento da fila é armazenado em um nó que contém um valor (ou dados) e um ponteiro para o próximo nó na fila.
-- ```Inicio e Fim```: A fila mantém duas referências, uma para nó no inicio e outro para o fim da fila, onde o elemento mais recentemente adicionado pela fim da fila. 
-- ```Sem Nó Cabeça```: Esta implementação não utiliza esse nó extra. 
+### Estrutura
 
-__Operações__
-1. **Enfileirar**: 
-   - Adiciona o elemento x ao final da fila.
-   - Aumenta o tamanho da fila.
-2. **Desenfileirar**:
-   - Remove e retorna o elemento na frente da fila.
-   - Diminui o tamanho da fila.
-   - Retornar um valor especial se a fila estiver vazia.
-3. **Consulta_Fila**:
-   - Retorna o elemento na frente da fila sem removê-lo.
-4. **Fila_Vazia**:
-   - Verifica se a fila está vazia.
-5. **Drop_Fila**:
-   - Limpa toda FILA desalocando memoria usada
-</details>
+__Nós__ - Cada elemento da fila é armazenado em um nó que contém um valor (ou dados) e um ponteiro para o próximo nó na fila.
+
+__Inicio e Fim__ - A fila mantém duas referências, uma para nó no inicio e outro para o fim da fila, onde o elemento mais recentemente adicionado pela fim da fila. 
+
+__Sem Nó Cabeça__ - Esta implementação não utiliza esse nó extra. 
+
+### Métodos e Procedimentos
+
+```c
+void FILA_inicia(FILA *);
+bool FILA_vazia(FILA *, bool);
+void FILA_enfileirar(FILA *, INFO);
+INFO FILA_get_primeiro(FILA *);
+INFO FILA_desemfilelar(FILA *);
+void FILA_imprime(FILA *);
+void FILA_drop(FILA *);
+```
+
+## Lista Simplesmente Encadeada
+
+É uma estrutura de dados que segue o princípio FIFO (First In, First Out), ou seja, o primeiro elemento adicionado à fila será o primeiro a ser removido. A fila é análoga a uma fila de pessoas em um banco, onde as pessoas são atendidas na ordem em que chegam. São amplamente utilizadas em sistemas de processamento de dados, onde a ordem de chegada dos dados precisa ser mantida, como em filas de impressão, processamento de tarefas em sistemas operacionais, etc.
+
+```sh
+gcc lista.c -o lista && ./lista
+```
+
+### Estrutura
+
+__Nós__ - Cada elemento da fila é armazenado em um nó que contém um valor (ou dados) e um ponteiro para o próximo nó na fila.
+
+__Inicio e Fim__ - A fila mantém duas referências, uma para nó no inicio e outro para o fim da fila, onde o elemento mais recentemente adicionado pela fim da fila. 
+
+__Sem Nó Cabeça__ - Esta implementação não utiliza esse nó extra. 
+
+### Métodos e Procedimentos
+
+```c
+void LISTA_inicia(LISTA *);
+bool LISTA_vazia(LISTA *, bool);
+void LISTA_add_inicio(LISTA *, INFO);
+void LISTA_add_fim(LISTA *, INFO);
+void LISTA_add_posicao(LISTA *, INFO, int);
+INFO LISTA_get_info(LISTA *, int);
+int  LISTA_buscar_info(LISTA *, INFO);
+INFO LISTA_remove_inicio(LISTA *);
+INFO LISTA_remove_fim(LISTA *);
+INFO LISTA_remover_busca(LISTA *, INFO);
+INFO LISTA_remover_posicao(LISTA *, int);
+void LISTA_prioridade_maxima(LISTA *, int);
+void LISTA_prioridade_minima(LISTA *, int);
+void LISTA_prioridade_salto(LISTA *, int, int);
+void LISTA_imprime(LISTA *);
+void LISTA_drop(LISTA *);
+```
