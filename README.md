@@ -133,7 +133,7 @@ void LISTA_add_inicio(LISTA *, INFO);
 void LISTA_add_fim(LISTA *, INFO);
 void LISTA_add_posicao(LISTA *, INFO, int);
 INFO LISTA_get_info(LISTA *, int);
-int  LISTA_buscar_info(LISTA *, INFO);
+int  LISTA_buscar_posicao_info(LISTA *, INFO);
 INFO LISTA_remove_inicio(LISTA *);
 INFO LISTA_remove_fim(LISTA *);
 INFO LISTA_remover_busca(LISTA *, INFO);

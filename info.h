@@ -2,9 +2,10 @@
 typedef struct info {
     int ID;
     char nome[MAXBUFF];
+    // . . .
 }   INFO;
 
-INFO INFO_default_value() 
+INFO INFO_default_value()
 {
     INFO i;
     i.ID = -999;
