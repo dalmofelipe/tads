@@ -2,14 +2,8 @@
 
 - [Informação Carregada Em Cada NO](#informação-carregada-em-cada-no)
 - [Pilha Encadeada](#pilha-encadeada)
-    - [Estrutura](#estrutura)
-    - [Métodos e Procedimentos](#métodos-e-procedimentos)
 - [Fila Encadeada](#fila-encadeada)
-    - [Estrutura](#estrutura-1)
-    - [Métodos e Procedimentos](#métodos-e-procedimentos-1)
 - [Lista Simplesmente Encadeada](#lista-simplesmente-encadeada)
-    - [Estrutura](#estrutura-2)
-    - [Métodos e Procedimentos](#métodos-e-procedimentos-2)
 
 <br>
 
@@ -49,6 +43,8 @@ INFO INFO_set_interativo(char *);
 bool INFO_is_equal(INFO, INFO);
 ```
 
+<br>
+
 ## Pilha Encadeada
 
 É uma estrutura de dados que segue o princípio FILO (First In, Last Out). Isso significa que o último elemento adicionado à pilha será o primeiro a ser removido. A pilha é utilizada em diversas aplicações que requerem esse tipo de comportamento, como a avaliação de expressões matemáticas, gerenciamento de chamadas de função (stack frames), e mais.
@@ -66,8 +62,6 @@ __Topo__ -  A pilha mantém uma referência apenas ao nó no topo, que é o elem
 
 __Sem Nó Cabeça__ -  Diferentemente de algumas implementações que utilizam um nó cabeça como um marcador ou sentinela para simplificar operações, esta estrutura não utiliza esse nó extra. 
 
-<br>
-
 ### Métodos e Procedimentos
 
 ```c
@@ -80,6 +74,7 @@ void PILHA_imprime(PILHA *);
 void PILHA_drop(PILHA *);
 ```
 
+<br>
 
 ## Fila Encadeada
 
@@ -97,8 +92,6 @@ __Inicio e Fim__ - A fila mantém duas referências, uma para nó no inicio e ou
 
 __Sem Nó Cabeça__ - Esta implementação não utiliza esse nó extra. 
 
-<br>
-
 ### Métodos e Procedimentos
 
 ```c
@@ -110,6 +103,8 @@ INFO FILA_desemfilelar(FILA *);
 void FILA_imprime(FILA *);
 void FILA_drop(FILA *);
 ```
+
+<br>
 
 ## Lista Simplesmente Encadeada
 
@@ -128,8 +123,6 @@ __Inicio ou Cabeça__ - Referência para nó do inicio lista.
 __Fim ou Calda__ - Referências para nó do fim da fila. 
 
 __Tamanho__ - Valor inteiro que é atualizado de acordo com a quantidade de Nos na lista. 
-
-<br>
 
 ### Métodos e Procedimentos
 
@@ -151,3 +144,5 @@ void LISTA_prioridade_salto(LISTA *, int, int);
 void LISTA_imprime(LISTA *);
 void LISTA_drop(LISTA *);
 ```
+
+<br>

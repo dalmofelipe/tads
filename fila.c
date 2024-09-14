@@ -4,6 +4,7 @@
 
 int main(int argc, char **args)
 {
+    setlocale(LC_ALL, "pt_BR.UTF-8");
     printf("\nFILA ENCADEADA\n");
 
     FILA banco;
