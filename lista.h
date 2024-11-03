@@ -25,7 +25,8 @@ INFO LISTA_remover_info(LISTA *, INFO);
 INFO LISTA_remover_posicao(LISTA *, int);
 void LISTA_prioridade_maxima(LISTA *, int);
 void LISTA_prioridade_minima(LISTA *, int);
-void LISTA_prioridade_salto(LISTA *, int, int);
+void LISTA_prioridade_deslocamento(LISTA *, int, int);
+void LISTA_swap_info(LISTA *, int, int);
 void LISTA_imprime(LISTA *);
 void LISTA_drop(LISTA *);
 
@@ -135,16 +136,15 @@ INFO LISTA_get_info(LISTA *l, int posicao)
 {
     if(LISTA_vazia(l, true)) return INFO_default_value();
 
-    if(posicao <= 1) return l->inicio->info;
-    else if(posicao >= l->tam) return l->fim->info;
-    else {
-        NO_LISTA *aux = l->inicio;
+    if(posicao <= 0) return l->inicio->info;
+    else if(posicao >= l->tam -1) return l->fim->info;
+    
+    NO_LISTA *aux = l->inicio;
 
-        // posiciona ponteiro *aux exatamente no NO que contem a informação
-        for(int i = 1; i < posicao; i++) aux = aux->prox;
-        
-        return aux->info;
-    }
+    // posiciona ponteiro *aux exatamente no NO que contem a informação
+    for(int i = 0; i < posicao; i++) aux = aux->prox;
+    
+    return aux->info;
 }
 
 
@@ -370,7 +370,8 @@ void LISTA_prioridade_minima(LISTA *l, int idx_alvo)
 
 
 //
-// Desloca o NO ALVO de acordo com SALTO informado.
+// Desloca o NO ALVO de acordo com SALTO informado, não alterando a ordem
+// dos outro elementos da lista.
 //
 // Se SALTO negativo, NO ALVO salta em direção ao INICIO da LISTA
 //
@@ -379,58 +380,45 @@ void LISTA_prioridade_minima(LISTA *l, int idx_alvo)
 // @param idx_alvo Inteiro que representa ALVO
 // @param salto Inteiro que representa SALTO diferente de zero
 // @return Sem retorno
-void LISTA_prioridade_salto(LISTA *l, int idx_alvo, int salto)
+void LISTA_prioridade_deslocamento(LISTA *l, int idx_alvo, int deslocamento)
 {
-    // A LISTA não pode esta vazia, o SALTO deve ser diferente de zero
-    if(LISTA_vazia(l, true) || l->tam == 1 || salto == 0) return;
+    // A LISTA não pode esta vazia, o DESLOCAMENTO deve ser diferente de zero
+    if(LISTA_vazia(l, true) || l->tam == 1 || deslocamento == 0) return;
 
     // O INDEX_ALVO deve esta no intervalo do tamanho da LISTA
     if(idx_alvo < 0 || idx_alvo > l->tam -1) return;
 
-    int idx_destino = idx_alvo + salto;
+    // calculo de indice do destino
+    int idx_destino = idx_alvo + deslocamento;
 
     // Apos calculo de posicao do DESTINO deve esta no intervalo do tamanho da LISTA
     if(idx_destino < 0 || idx_destino > l->tam -1) {
-        printf("\n[LISTA_prioridade_salto]: IDX_DESTINO fora do range da LISTA\n");
+        printf("\n[LISTA_prioridade_deslocamento]: IDX_DESTINO fora do range da LISTA\n");
         return;
     }
 
+    printf(
+        "\n[LISTA_prioridade_deslocamento] Movendo idx:%d em %d nos, destino:%d\n", 
+        idx_alvo, deslocamento, idx_destino
+    );
+
     NO_LISTA *p_alvo = l->inicio;
+    NO_LISTA *aux_alvo = l->inicio;
+
     NO_LISTA *p_destino = l->inicio;
-    NO_LISTA *aux_fim = NULL;
-    NO_LISTA *aux_destino = NULL;
+    NO_LISTA *aux_destino = l->inicio;
 
     INFO temp;
 
     for(int a = 0; a < idx_alvo; a++) p_alvo = p_alvo->prox;
     for(int d = 0; d < idx_destino; d++) p_destino = p_destino->prox;
 
-    if(p_alvo == p_destino) return;
-
-    // se extremos, troca de INFOs. MODIFICA estrutura
-    if(p_alvo == l->inicio && p_destino == l->fim) {
-        l->inicio = l->inicio->prox;
-        p_alvo->prox = NULL;
-        l->fim->prox = p_alvo;
-        l->fim = p_alvo;
+    if(p_alvo == p_destino) {
+        printf("\n[LISTA_prioridade_salto]: IDX_ALVO & IDX_DESTINO iguais\n");
         return;
     }
 
-    // se extremos, troca de INFOs. MODIFICA estrutura
-    if(p_alvo == l->fim && p_destino == l->inicio) {
-        // posiciona um ponteiro aux no penultimo NO (Lista Simplesmente Encadeada!)
-        aux_fim = l->inicio;
-        while(aux_fim->prox != l->fim) aux_fim = aux_fim->prox;
-
-        l->fim = aux_fim;
-        l->fim->prox = NULL;
-        p_alvo->prox = l->inicio;
-        l->inicio = p_alvo;
-        return;
-    }
-
-    // quandos os ponteiros são vizinhos, apenas troca as INFOs.
-    // Não modifica estrutura
+    // SE ADJACENTES - APENAS TROCA INFO
     if(p_alvo->prox == p_destino || p_destino->prox == p_alvo) {
         temp = p_alvo->info;
         p_alvo->info = p_destino->info;
@@ -438,38 +426,76 @@ void LISTA_prioridade_salto(LISTA *l, int idx_alvo, int salto)
         return;
     }
 
+    // alvo movendo em direção até o fim da lista
+    if(deslocamento > 0) {
+        if(p_alvo == l->inicio)  {
+            l->inicio = l->inicio->prox;
+        } else {
+            // 'Desconecta' no Alvo da sequencia da lista
+            while(aux_alvo->prox != p_alvo) aux_alvo = aux_alvo->prox;
+            aux_alvo->prox = p_alvo->prox;
+        }
 
-    // p_alvo == inicio, destino é um NO interno, não vizinho, e não fim
-    // altera estrutura de NOs
-    if(p_alvo == l->inicio 
-            && (p_destino != p_alvo->prox || p_destino != l->fim)) {
-        l->inicio = l->inicio->prox;
+        if(p_destino == l->fim) {
+            p_alvo->prox = NULL;
+            l->fim->prox = p_alvo;
+            l->fim = p_alvo;
+            return;
+        }
+
         p_alvo->prox = p_destino->prox;
         p_destino->prox = p_alvo;
         return;
     }
 
-    // p_alvo == fim, destino é um NO interno, não vizinho, e não inicio
-    // altera estrutura de NOs
-    if(p_alvo == l->fim 
-            && (p_destino->prox != p_alvo || p_destino != l->inicio)) {
-        // posiciona um ponteiro aux no penultimo NO (Lista Simplesmente Encadeada!)
-        aux_fim = l->inicio;
-        while(aux_fim->prox != l->fim) aux_fim = aux_fim->prox;
-        
-        l->fim = aux_fim;
-        l->fim->prox = NULL;
+    if(deslocamento < 0) {
+        while(aux_alvo->prox != p_alvo) aux_alvo = aux_alvo->prox;
 
-        // posiciona um ponteiro aux anterior ao destino (Lista Simplesmente Encadeada!)
-        aux_destino = l->inicio;
+        if(p_alvo == l->fim)  {
+            // desconecta alvo
+            l->fim = aux_alvo;
+            l->fim->prox = NULL;
+        } else {
+            // 'Desconecta' no Alvo da lista
+            aux_alvo->prox = p_alvo->prox;
+        }
+
+        // destino
+        if(p_destino == l->inicio) {
+            p_alvo->prox = l->inicio;
+            l->inicio = p_alvo;
+            return;
+        }
+
         while(aux_destino->prox != p_destino) aux_destino = aux_destino->prox;
-
-        p_alvo->prox = p_destino;
-        aux_destino->prox = p_alvo;       
+        p_alvo->prox = aux_destino->prox;
+        aux_destino->prox = p_alvo;
         return;
     }
 }
 
+void LISTA_swap_info(LISTA *l, int idx_alvo, int idx_destino) {
+    if(LISTA_vazia(l, true) || l->tam == 1 || idx_alvo == idx_destino) return;
+
+    if((idx_alvo < 0 && idx_alvo >= l->tam) && (idx_alvo < 0 && idx_alvo >= l->tam)) {
+        printf("\n[LISTA_swap_info] Indice do Alvo ou Destino foram do range!\n");
+        return;
+    }
+
+    NO_LISTA *p_alvo = l->inicio;
+    NO_LISTA *p_destino = l->inicio;
+
+    INFO temp;
+
+    for(int a = 0; a < idx_alvo; a++) p_alvo = p_alvo->prox;
+    for(int d = 0; d < idx_destino; d++) p_destino = p_destino->prox;
+
+    if(p_alvo != p_destino) {
+        temp = p_alvo->info;
+        p_alvo->info = p_destino->info;
+        p_destino->info = temp;
+    }
+}
 
 void LISTA_imprime(LISTA *l)
 {
@@ -479,10 +505,13 @@ void LISTA_imprime(LISTA *l)
 
     printf("\nImprimindo Lista Simples...\n\n");
 
+    int idx = 0;
+
     while(aux != NULL)
     {
-        printf("ID: %-7.0d  Nome: %s\n", aux->info.ID, aux->info.nome);
+        printf("index: %d, ID: %-7d  Nome: %s\n", idx, aux->info.ID, aux->info.nome);
         aux = aux->prox;
+        idx++;
     }
 
     printf("\nTAM = %d\n\n", l->tam);
