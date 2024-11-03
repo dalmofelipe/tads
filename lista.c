@@ -34,24 +34,26 @@ int main(int argc, char **args)
     printf("\nAlterando prioridades de NOs da LISTA...");
     printf("\nAtenção aos indices a cada alteração!");
     
-    // LISTA_prioridade_maxima(&compras, 7);
-    // LISTA_prioridade_maxima(&compras, 8);
-    // LISTA_prioridade_maxima(&compras, 9);
-
-    // LISTA_prioridade_minima(&compras, 0);
-    // LISTA_prioridade_minima(&compras, 0);
-    // LISTA_prioridade_minima(&compras, 0);
-
-    LISTA_prioridade_deslocamento(&compras, 0, 9);
+    LISTA_prioridade_maxima(&compras, 7);
+    LISTA_prioridade_maxima(&compras, 8);
+    LISTA_prioridade_maxima(&compras, 9);
     LISTA_imprime(&compras);
 
-    LISTA_prioridade_deslocamento(&compras, 5, 4);
+    LISTA_prioridade_minima(&compras, 0);
+    LISTA_prioridade_minima(&compras, 0);
+    LISTA_prioridade_minima(&compras, 0);
     LISTA_imprime(&compras);
 
-    LISTA_prioridade_deslocamento(&compras, 8, -8);
+    LISTA_prioridade_deslocamento(&compras, 2, 2);
     LISTA_imprime(&compras);
 
-    LISTA_prioridade_deslocamento(&compras, 9, -3);
+    LISTA_prioridade_deslocamento(&compras, 5, 1);
+    LISTA_imprime(&compras);
+
+    LISTA_prioridade_deslocamento(&compras, 7, -2);
+    LISTA_imprime(&compras);
+
+    LISTA_prioridade_deslocamento(&compras, 8, -1);
     LISTA_imprime(&compras);
 
 
@@ -61,37 +63,37 @@ int main(int argc, char **args)
 
 
     // Busca/pesquisando por informação (INFO)
-    // x = INFO_set_value(10, "Camisa"); // INFO: Camisa com ID 10
-    // pos = LISTA_buscar_posicao_info(&compras, x); // -1 não encontrou nenhum dado!
+    x = INFO_set_value(10, "Camisa"); // INFO: Camisa com ID 10
+    pos = LISTA_buscar_posicao_info(&compras, x); // -1 não encontrou nenhum dado!
 
-    // if (pos >= 0) {
-    //     printf("\n[LISTA_buscar_posicao_info] ");
-    //     printf("INFO encontrada no %do NO >>> ID: %d, Nome: %s", pos, x.ID, x.nome);
-    // } else {
-    //     printf("\n[LISTA_buscar_posicao_info] ");
-    //     printf("A INFO[%d, %s], não encontrada na LISTA\n", x.ID, x.nome);
-    // }
+    if (pos >= 0) {
+        printf("\n[LISTA_buscar_posicao_info] ");
+        printf("INFO encontrada no %do NO >>> ID: %d, Nome: %s", pos, x.ID, x.nome);
+    } else {
+        printf("\n[LISTA_buscar_posicao_info] ");
+        printf("A INFO[%d, %s], não encontrada na LISTA\n", x.ID, x.nome);
+    }
 
 
     // Remoção de INFO
-    // x = LISTA_remove_inicio(&compras);
-    // printf("\n[LISTA_remove_inicio]\nNO removido do INICIO >>> ID: %d, Nome: %s\n", x.ID, x.nome);
+    x = LISTA_remove_inicio(&compras);
+    printf("\n[LISTA_remove_inicio]\nNO removido do INICIO >>> ID: %d, Nome: %s\n", x.ID, x.nome);
     
-    // x = LISTA_remove_fim(&compras);
-    // printf("\n[LISTA_remove_fim]\nNO removido do FIM >>> ID: %d, Nome: %s\n", x.ID, x.nome);
+    x = LISTA_remove_fim(&compras);
+    printf("\n[LISTA_remove_fim]\nNO removido do FIM >>> ID: %d, Nome: %s\n", x.ID, x.nome);
 
-    // x = INFO_set_value(333, "Terceira pos"); // Esta INFO não existe na LISTA
-    // x = LISTA_remover_info(&compras, x); // Retorna INFO_default_value
-    // printf("\n[LISTA_remover_info]\nNO removido por busca de INFO >>> ID: %d, Nome: %s\n", x.ID, x.nome);
+    x = INFO_set_value(333, "Terceira pos"); // Esta INFO não existe na LISTA
+    x = LISTA_remover_info(&compras, x); // Retorna INFO_default_value
+    printf("\n[LISTA_remover_info]\nNO removido por busca de INFO >>> ID: %d, Nome: %s\n", x.ID, x.nome);
 
-    // INFO i700 = INFO_set_value(700, "700 sétimo");
-    // x = LISTA_remover_info(&compras, i700);
-    // printf("\n[LISTA_remover_info]\nNO removido por busca de INFO >>> ID: %d, Nome: %s\n", x.ID, x.nome);
+    INFO i700 = INFO_set_value(700, "700 sétimo");
+    x = LISTA_remover_info(&compras, i700);
+    printf("\n[LISTA_remover_info]\nNO removido por busca de INFO >>> ID: %d, Nome: %s\n", x.ID, x.nome);
 
-    // x = LISTA_remover_posicao(&compras, 2);
-    // printf("\n[LISTA_remover_posicao]\nNO removido por POSIÇÃO >>> ID: %d, Nome: %s\n\n", x.ID, x.nome);
+    x = LISTA_remover_posicao(&compras, 2);
+    printf("\n[LISTA_remover_posicao]\nNO removido por POSIÇÃO >>> ID: %d, Nome: %s\n\n", x.ID, x.nome);
 
-    // LISTA_imprime(&compras);
+    LISTA_imprime(&compras);
 
 
     // Limpa memoria alocada, retornando a lista para configuração inicial

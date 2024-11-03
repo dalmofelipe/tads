@@ -26,7 +26,8 @@ INFO LST_DUPLA_remover_info(LST_DUPLA *, INFO);
 INFO LST_DUPLA_remover_posicao(LST_DUPLA *, int);
 void LST_DUPLA_prioridade_maxima(LST_DUPLA *, int);
 void LST_DUPLA_prioridade_minima(LST_DUPLA *, int);
-void LST_DUPLA_prioridade_salto(LST_DUPLA *, int, int);
+void LST_DUPLA_prioridade_deslocamento(LST_DUPLA *, int, int);
+void LST_DUPLA_swap_info(LST_DUPLA *, int, int);
 void LST_DUPLA_imprime(LST_DUPLA *, bool);
 void LST_DUPLA_drop(LST_DUPLA *);
 
@@ -298,10 +299,10 @@ void LST_DUPLA_prioridade_maxima(LST_DUPLA *ld, int idx_alvo)
 {
     if(LST_DUPLA_vazia(ld, true) || ld->tam == 1) return;
 
-    // range vai do 1 até o ultimo NO da LISTA
-    if(idx_alvo < 1 || idx_alvo > ld->tam -1) {
+    // zero-index
+    if(idx_alvo < 0 || idx_alvo >= ld->tam) {
         printf("\n[LISTA_prioridade_maxima] Indice Inválido. ");
-        printf("Informe um indice entre 1 e %d\n", ld->tam -1);
+        printf("Informe um indice entre 0 e %d\n", ld->tam -1);
         return;
     }
 
@@ -372,31 +373,35 @@ void LST_DUPLA_prioridade_minima(LST_DUPLA *ld, int idx_alvo)
 }
 
 
-//*
-// Desloca o NO ALVO de acordo com SALTO informado.
+// Move o NO ALVO de acordo com DESLOCAMENTO informado.
 //
-// Se SALTO negativo, NO ALVO salta em direção ao INICIO da LISTA
+// - Se DESLOCAMENTO negativo, NO ALVO move em direção ao INICIO da LISTA
+// - Se DESLOCAMENTO positivo, NO ALVO move em direção ao FIM da LISTA
 //
-// Se SALTO positivo, NO ALVO salta em direção ao FIM da LISTA
-// @param *l Endereço de memoria para LISTA
-// @param idx_alvo Inteiro que representa ALVO
-// @param salto Inteiro que representa SALTO diferente de zero
-// @return Sem retorno
-void LST_DUPLA_prioridade_salto(LST_DUPLA *ld, int idx_alvo, int salto)
+// @param *ld Endereço de memoria para LST_DUPLA
+// @param idx_alvo Inteiro que representa indice (zero-index) do ALVO
+// @param deslocamento Quantidade de NOs que serão deslocados
+// @return Sem retorno, modificações via passagem de referência
+void LST_DUPLA_prioridade_deslocamento(LST_DUPLA *ld, int idx_alvo, int deslocamento)
 {
-    // A LISTA não pode esta vazia, o SALTO deve ser diferente de zero
-    if(LST_DUPLA_vazia(ld, true) || ld->tam == 1 || salto == 0) return;
+    // A LISTA não pode esta vazia, o deslocamento deve ser diferente de zero
+    if(LST_DUPLA_vazia(ld, true) || ld->tam == 1 || deslocamento == 0) return;
 
     // O INDEX_ALVO deve esta no intervalo do tamanho da LISTA
     if(idx_alvo < 0 || idx_alvo > ld->tam -1) return;
 
-    int idx_destino = idx_alvo + salto;
+    int idx_destino = idx_alvo + deslocamento;
 
     // Apos calculo de posicao do DESTINO deve esta no intervalo do tamanho da LISTA
     if(idx_destino < 0 || idx_destino > ld->tam -1) {
         printf("\n[LISTA_prioridade_salto]: IDX_DESTINO fora do range da LISTA\n");
         return;
     }
+
+    printf(
+        "\n[LST_DUPLA_prioridade_deslocamento] Movendo idx:%d em %d nos, destino idx:%d\n", 
+        idx_alvo, deslocamento, idx_destino
+    );
 
     NO_LST_DUPLA *p_alvo = ld->inicio;
     NO_LST_DUPLA *p_destino = ld->inicio;
@@ -408,71 +413,109 @@ void LST_DUPLA_prioridade_salto(LST_DUPLA *ld, int idx_alvo, int salto)
 
     if(p_alvo == p_destino) return;
 
-    // se extremos, MODIFICA estrutura
-    if(p_alvo == ld->inicio && p_destino == ld->fim) {
-        ld->inicio = ld->inicio->prox;
-        ld->inicio->anterior = NULL;
 
-        p_alvo->prox = NULL;
-        p_alvo->anterior = ld->fim;
-        
-        ld->fim->prox = p_alvo;
-        ld->fim = p_alvo;
-        return;
-    }
-
-    // se extremos, desloca NO do *fim para *inicio, MODIFICA estrutura
-    if(p_alvo == ld->fim && p_destino == ld->inicio) {
-        ld->fim = ld->fim->anterior;
-        ld->fim->prox = NULL;
-
-        p_alvo->prox = ld->inicio;
-        p_alvo->anterior = NULL;
-        
-        ld->inicio->anterior = p_alvo;
-        ld->inicio = p_alvo;
-        return;
-    }
-
-    // quandos os ponteiros são vizinhos, apenas troca as INFOs.
-    // Não modifica estrutura
-    if(p_alvo->prox == p_destino || p_destino->prox == p_alvo) {
+    // SE FOREM ADJACENTE (VIZINHOS) APENAS TROCA INFORMAÇÃO
+    if((p_alvo->prox == p_destino) || (p_destino->prox == p_alvo)) {
         temp = p_alvo->info;
         p_alvo->info = p_destino->info;
         p_destino->info = temp;
         return;
     }
 
+    // CASO DESLOCAMENTO EM DIREÇÃO AO FIM
+    if(deslocamento > 0) {
+        // tratamento do *ALVO
+        // Se alvo aponta para o que inicio aponta. move o inicio para segundo NO
+        if(p_alvo == ld->inicio) {
+            ld->inicio = ld->inicio->prox;
+            ld->inicio->anterior = NULL;
+            p_alvo->prox = NULL; // e desconecta alvo
+        } else {
+            // se alvo for NO interno, desconecta alvo, mantendo ligação da lista
+            p_alvo->anterior->prox = p_alvo->prox;
+            p_alvo->prox->anterior = p_alvo->anterior;
+            p_alvo->prox = NULL;
+            p_alvo->anterior = NULL;
+        }
 
-    // p_alvo == inicio, destino é um NO interno, não vizinho, e não fim
-    // altera estrutura de NOs, p_alvo é deslocado apos do p_destino
-    if(p_alvo == ld->inicio 
-            && (p_destino != p_alvo->prox || p_destino != ld->fim)) {
-        ld->inicio = ld->inicio->prox;
-        ld->inicio->anterior = NULL;
+        // tratamento do *DESTINO
+        // *destino é fim da lista, apenas add alvo e move *fim;
+        if(p_destino == ld->fim) {
+            ld->fim->prox = p_alvo;
+            p_alvo->anterior = ld->fim;
+            ld->fim = p_alvo;
+            p_alvo->prox = NULL;
+            return;
+        }
 
-        p_destino->prox->anterior = p_alvo;
+        // se deslocamento é positivo, o *alvo é reinserido pelo 'lado' prox de *destino
         p_alvo->prox = p_destino->prox;
+        p_destino->prox->anterior = p_alvo;
         p_alvo->anterior = p_destino;
         p_destino->prox = p_alvo;
         return;
     }
 
-    // p_alvo == fim, destino é um NO interno, não vizinho, e não inicio
-    // altera estrutura de NOs
-    if(p_alvo == ld->fim 
-            && (p_destino->prox != p_alvo || p_destino != ld->inicio)) {
-        ld->fim = ld->fim->anterior;
-        ld->fim->prox = NULL;
+    // CASO DESLOCAMENTO EM DIREÇÃO AO INICIO
+    if(deslocamento < 0) {
+        // tratamento do *ALVO
+        // Se alvo aponta para o que *fim aponta. move o *fim para penultimo NO
+        if(p_alvo == ld->fim) {
+            ld->fim = ld->fim->anterior;
+            ld->fim->prox = NULL;
+            p_alvo->anterior = NULL; // e desconecta alvo
+        } else {
+            // se alvo for NO interno, desconecta alvo, mantendo ligação da lista
+            p_alvo->anterior->prox = p_alvo->prox;
+            p_alvo->prox->anterior = p_alvo->anterior;
+            p_alvo->prox = NULL;
+            p_alvo->anterior = NULL;
+        }
 
-        p_destino->anterior->prox = p_alvo;
+        // tratamento do *DESTINO
+        // *destino é inicio da lista, apenas add alvo e move *inciio;
+        if(p_destino == ld->inicio) {
+            ld->inicio->anterior = p_alvo;
+            p_alvo->prox = ld->inicio;
+            ld->inicio = p_alvo;
+            p_alvo->anterior = NULL;
+            return;
+        }
+
+        // se deslocamento é negativo, o *alvo é reinserido pelo 'lado' anterior de *destino
         p_alvo->anterior = p_destino->anterior;
+        p_destino->anterior->prox = p_alvo;
         p_alvo->prox = p_destino;
         p_destino->anterior = p_alvo;
         return;
     }
 }
-//*/
+
+
+
+void LST_DUPLA_swap_info(LST_DUPLA *l, int idx_alvo, int idx_destino) {
+    if(LST_DUPLA_vazia(l, true) || l->tam == 1 || idx_alvo == idx_destino) return;
+
+    if((idx_alvo < 0 && idx_alvo >= l->tam) && (idx_alvo < 0 && idx_alvo >= l->tam)) {
+        printf("\n[LST_DUPLA_swap_info]\nIndice do Alvo ou Destino foram do range!\n");
+        return;
+    }
+
+    NO_LST_DUPLA *p_alvo = l->inicio;
+    NO_LST_DUPLA *p_destino = l->inicio;
+
+    INFO temp;
+
+    for(int a = 0; a < idx_alvo; a++) p_alvo = p_alvo->prox;
+    for(int d = 0; d < idx_destino; d++) p_destino = p_destino->prox;
+
+    if(p_alvo != p_destino) {
+        temp = p_alvo->info;
+        p_alvo->info = p_destino->info;
+        p_destino->info = temp;
+    }
+}
+
 
 void LST_DUPLA_imprime(LST_DUPLA *ld, bool reverso)
 {
@@ -482,12 +525,15 @@ void LST_DUPLA_imprime(LST_DUPLA *ld, bool reverso)
 
     printf("\nImprimindo Lista Dupla...\n\n");
 
+    int count = 0;
+
     while(aux != NULL)
     {
-        printf("ID: %-7.0d  Nome: %s\n", aux->info.ID, aux->info.nome);
+        printf("idx: %d | ID: %-7.0d  Nome: %s\n", count, aux->info.ID, aux->info.nome);
 
         if(reverso) aux = aux->anterior;
         else aux = aux->prox;
+        count++;
     }
 
     printf("\nTAM = %d\n\n", ld->tam);
@@ -506,7 +552,7 @@ void LST_DUPLA_drop(LST_DUPLA *ld)
     {
         aux = ld->inicio;
 
-        printf("\n[DROP] INFO[ID:%-4d Nome:%s]", aux->info.ID, aux->info.nome);
+        // printf("\n[DROP] INFO[ID:%-4d Nome:%s]", aux->info.ID, aux->info.nome);
 
         if(ld->inicio == ld->fim) {
             free(ld->inicio); // ultimo NO

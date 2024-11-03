@@ -398,7 +398,7 @@ void LISTA_prioridade_deslocamento(LISTA *l, int idx_alvo, int deslocamento)
     }
 
     printf(
-        "\n[LISTA_prioridade_deslocamento] Movendo idx:%d em %d nos, destino:%d\n", 
+        "\n[LISTA_prioridade_deslocamento] Movendo idx:%d em %d nos, destino idx:%d\n", 
         idx_alvo, deslocamento, idx_destino
     );
 
